@@ -1,0 +1,32 @@
+{% extends 'base.html'%}
+
+{% block header %}
+    <div class="head_contect">
+        <h2>Create Account</h2>
+    </div>
+{% endblock %}
+
+{% block register %}
+    <div class="log-container">
+    {{success}}
+        <form method="POST">
+            <input type="text" name="firstName" placeholder="Enter First Name" required><br>
+
+            <input type="text" name="secondName" placeholder="Enter Last Name" required><br>
+
+            <input type="email" name="email" placeholder="Enter email" required><br>
+
+            <input type="tel" name="phone" placeholder="Enter Phone Number" required><br>
+
+            <input type="password" name="password" placeholder="Enter password" required><br>
+
+            <input type="text" name="address" placeholder="Enter Address" required><br>
+
+            <label for="image">Profile Picture: </label>
+            <input type="file" name="image" id="">
+
+            <button class="btn" type="submit">Register</button>
+        </form>
+
+    </div>
+{% endblock %}

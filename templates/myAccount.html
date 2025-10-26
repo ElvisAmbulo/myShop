@@ -1,0 +1,230 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<div class="head_contect">
+    <h2>My Account</h2>
+</div>
+{% endblock %}
+
+{% block myAccount %}
+<style>
+    .myAccountPage {
+        display: flex;
+        gap: 2rem;
+        padding: 20px;
+        flex-wrap: wrap;
+    }
+
+    .accountMenu {
+        width: 220px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .accountMenu a {
+        padding: 10px 15px;
+        background-color: #f2f2f2;
+        border-radius: 5px;
+        text-decoration: none;
+        color: #333;
+        font-weight: 500;
+        transition: background 0.3s;
+    }
+
+    .accountMenu a:hover,
+    .accountMenu a.active {
+        background-color: #007bff;
+        color: #fff;
+    }
+
+    .accountTab {
+        display: none;
+        flex: 1;
+        background: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .accountTab.active {
+        display: block;
+    }
+
+    .personalInfo img {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-bottom: 15px;
+        border: 2px solid #ddd;
+    }
+
+    label {
+        display: block;
+        margin-top: 10px;
+        font-weight: bold;
+    }
+
+    input[type="text"], input[type="email"], input[type="tel"], input[type="password"] {
+        width: 100%;
+        padding: 8px;
+        margin-top: 5px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    input[type="submit"] {
+        margin-top: 15px;
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    input[type="submit"]:hover {
+        background-color: #0056b3;
+    }
+
+    @media (max-width: 768px) {
+        .myAccountPage {
+            flex-direction: column;
+        }
+
+        .accountMenu {
+            width: 100%;
+            flex-direction: row;
+            overflow-x: auto;
+        }
+
+        .accountMenu a {
+            flex: 1;
+            text-align: center;
+            font-size: 14px;
+        }
+    }
+
+    .message {
+        margin-top: 10px;
+        padding: 10px;
+        border-radius: 5px;
+    }
+
+    .success {
+        background: #d4edda;
+        color: #155724;
+    }
+
+    .error {
+        background: #f8d7da;
+        color: #721c24;
+    }
+</style>
+
+<div class="myAccountPage">
+    <div class="accountMenu">
+        <a href="#" class="active" data-tab="personalInfo">Personal Info</a>
+        <a href="#" data-tab="orders">My Orders</a>
+        <a href="#" data-tab="address">Manage Address</a>
+        <a href="#" data-tab="payment">Payment Method</a>
+        <a href="#" data-tab="password">Password Manager</a>
+        <a href="/logout">Logout</a>
+    </div>
+
+    <div class="tabContent">
+        <!-- PERSONAL INFO TAB -->
+        <div class="accountTab active" id="personalInfo">
+            <form action="/update_profile" method="POST" enctype="multipart/form-data">
+                {% if user['image'] %}
+                    <img src="{{ url_for('static', filename='images/' + user['image']) }}" id="preview" alt="">
+                {% else %}
+                    <img src="{{ url_for('static', filename='images/default.png') }}" id="preview" alt="Default Profile Picture">
+                {% endif %}
+
+                <input type="file" name="profilePic" onchange="previewImage(event)"><br>
+
+                <label>First Name *</label>
+                <input type="text" name="firstName" value="{{ user['firstName'] }}">
+
+                <label>Last Name *</label>
+                <input type="text" name="lastName" value="{{ user['secondName'] }}">
+
+                <label>Email *</label>
+                <input type="email" name="email" value="{{ user['email'] }}">
+
+                <label>Phone *</label>
+                <input type="tel" name="phone" value="{{ user['phone'] }}">
+
+                <input type="submit" value="Update Changes">
+            </form>
+        </div>
+
+        <!-- ORDERS TAB -->
+        <div class="accountTab" id="orders">
+            <h3>My Orders</h3>
+            <p>No orders yet.</p>
+        </div>
+
+        <!-- ADDRESS TAB -->
+        <div class="accountTab" id="address">
+            <h3>Manage Address</h3>
+            <p>You have not added any address.</p>
+        </div>
+
+        <!-- PAYMENT TAB -->
+        <div class="accountTab" id="payment">
+            <h3>Payment Methods</h3>
+            <p>No payment methods available yet.</p>
+        </div>
+
+        <!-- PASSWORD TAB -->
+        <div class="accountTab" id="password">
+            <h3>Change Password</h3>
+            <form action="/update_password" method="POST">
+                <label>Current Password *</label>
+                <input type="password" name="currentPassword" required>
+
+                <label>New Password *</label>
+                <input type="password" name="newPassword" required>
+
+                <label>Confirm New Password *</label>
+                <input type="password" name="confirmPassword" required>
+
+                <input type="submit" value="Update Password">
+            </form>
+
+            {% if message %}
+                <div class="message {{ 'success' if success else 'error' }}">{{ message }}</div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<script>
+    // Handle tab switching
+    document.querySelectorAll('.accountMenu a[data-tab]').forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+
+            // Remove active classes
+            document.querySelectorAll('.accountMenu a').forEach(a => a.classList.remove('active'));
+            document.querySelectorAll('.accountTab').forEach(tab => tab.classList.remove('active'));
+
+            // Add active classes
+            this.classList.add('active');
+            document.getElementById(this.dataset.tab).classList.add('active');
+        });
+    });
+
+    // Preview uploaded profile picture
+    function previewImage(event) {
+        const reader = new FileReader();
+        reader.onload = function() {
+            document.getElementById('preview').src = reader.result;
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    }
+</script>
+{% endblock %}

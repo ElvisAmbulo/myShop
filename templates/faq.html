@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQs - Furniture</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/faq.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    color: #333;
+    background-color: #fff;
+}
+
+.header .topbar {
+    background: #1a4d2e;
+    color: white;
+    text-align: center;
+    padding: 8px;
+    font-size: 14px;
+}
+
+.header .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 5%;
+    background: #fff;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.navbar .logo {
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.navbar .nav-links {
+    display: flex;
+    list-style: none;
+    gap: 25px;
+}
+
+.navbar .nav-links li a {
+    text-decoration: none;
+    color: #333;
+    transition: color .3s ease;
+}
+
+.navbar .nav-links li a:hover {
+    color: #1a4d2e;
+}
+
+.navbar .nav-icons i {
+    margin-left: 10px;
+    color: #333;
+    cursor: pointer;
+}
+
+.breadcrumb {
+    background: #f9f9f9;
+    text-align: center;
+    padding: 40px 0;
+}
+
+.breadcrumb h1 {
+    margin: 0;
+    font-size: 32px;
+}
+
+.breadcrumb p {
+    color: #666;
+}
+
+.faq-section {
+    padding: 50px 10%;
+    display: flex;
+    justify-content: center;
+}
+
+.faq-container {
+    display: flex;
+    width: 100%;
+    gap: 40px;
+}
+
+.faq-menu {
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+    gap: 10px;
+}
+
+.faq-menu button {
+    padding: 12px 15px;
+    border: none;
+    background: #f3f3f3;
+    cursor: pointer;
+    border-radius: 6px;
+    text-align: left;
+    transition: 0.3s;
+}
+
+.faq-menu button.active,
+.faq-menu button:hover {
+    background: #f6b20a;
+    color: #fff;
+}
+
+.faq-content {
+    flex: 1;
+}
+
+.faq-item {
+    margin-bottom: 10px;
+    border-radius: 6px;
+    overflow: hidden;
+    background: #f9f9f9;
+    border: 1px solid #eee;
+}
+
+.faq-question {
+    width: 100%;
+    padding: 15px;
+    font-weight: 600;
+    text-align: left;
+    background: none;
+    border: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+
+.faq-answer {
+    display: none;
+    padding: 15px;
+    background: #fff;
+    color: #555;
+}
+
+.faq-answer.show {
+    display: block;
+}
+
+.features {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin: 40px 0;
+    background: #fafafa;
+    padding: 20px 0;
+}
+
+.features .feature {
+    text-align: center;
+    font-size: 15px;
+    color: #333;
+}
+
+.features .feature i {
+    margin-right: 8px;
+    color: #1a4d2e;
+}
+
+.footer {
+    background: #1a4d2e;
+    color: #fff;
+    padding: 40px 10%;
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 30px;
+    margin-bottom: 20px;
+}
+
+.footer-links a {
+    display: block;
+    color: #eee;
+    text-decoration: none;
+    margin-bottom: 6px;
+    font-size: 14px;
+}
+
+.footer-links a:hover {
+    color: #f6b20a;
+}
+
+.footer-bottom {
+    text-align: center;
+    font-size: 14px;
+    color: #ccc;
+    border-top: 1px solid #2d6a4f;
+    padding-top: 10px;
+}
+
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="topbar">
+            <span>Call Us: +123-456-789</span>
+            <span>Sign up and GET 20% OFF for your first order. <a href="#">Sign up now</a></span>
+        </div>
+
+        <nav class="navbar">
+            <div class="logo">Furniture<span>.</span></div>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/shop">Shop</a></li>
+                <li><a href="/categories">Categories</a></li>
+                <li><a href="/about">About Us</a></li>
+                <li><a href="/contact">Contact Us</a></li>
+                <li><a href="/blog">Blog</a></li>
+            </ul>
+            <div class="nav-icons">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <i class="fa-regular fa-user"></i>
+                <i class="fa-regular fa-heart"></i>
+                <i class="fa-solid fa-cart-shopping"></i>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Breadcrumb -->
+    <section class="breadcrumb">
+        <h1>FAQs</h1>
+        <p>Home / FAQs</p>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section">
+        <div class="faq-container">
+            <div class="faq-menu">
+                <button class="active">General Information</button>
+                <button>Ordering & Shipping</button>
+                <button>Returns & Exchanges</button>
+                <button>Payments & Discounts</button>
+                <button>Account & Profile</button>
+            </div>
+
+            <div class="faq-content">
+                <div class="faq-item">
+                    <button class="faq-question">How can I place an order?<i class="fa-solid fa-plus"></i></button>
+                    <div class="faq-answer">You can place your order directly on our website by adding items to your cart and checking out securely.</div>
+                </div>
+
+                <div class="faq-item active">
+                    <button class="faq-question">What payment methods do you accept?<i class="fa-solid fa-minus"></i></button>
+                    <div class="faq-answer show">We accept Visa, Mastercard, PayPal, and other major payment options. All transactions are secure.</div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">Can I track my order after it’s been placed?<i class="fa-solid fa-plus"></i></button>
+                    <div class="faq-answer">Yes, you will receive an email with your tracking details once your order ships.</div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">Do you offer customer support?<i class="fa-solid fa-plus"></i></button>
+                    <div class="faq-answer">Our support team is available 24/7 through email, chat, or phone.</div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">What is your return policy?<i class="fa-solid fa-plus"></i></button>
+                    <div class="faq-answer">We accept returns within 30 days of purchase. Please ensure items are unused and in original packaging.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+
+    
+
+    <script>
+        // FAQ Toggle
+        const faqItems = document.querySelectorAll('.faq-item');
+        faqItems.forEach(item => {
+            item.querySelector('.faq-question').addEventListener('click', () => {
+                item.classList.toggle('active');
+                item.querySelector('.faq-answer').classList.toggle('show');
+                const icon = item.querySelector('i');
+                icon.classList.toggle('fa-plus');
+                icon.classList.toggle('fa-minus');
+            });
+        });
+    </script>
+</body>
+</html>

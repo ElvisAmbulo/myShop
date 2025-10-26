@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block tittle %} Shop {% endblock %}</title>
+
+    <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
+    <!-- fonts -->
+     <link rel="stylesheet" href="{{url_for('static', filename='fonts/css/all.min.css')}}">
+     <!-- responsiveness -->
+     <link rel="stylesheet" href="{{url_for('static', filename='fonts/css/responsiveness.css')}}">
+</head>
+<body>
+
+    <div class="topPage">
+        <div class="contactDiv">
+            <p>Call Us: +209484758</p>
+        </div>
+        <div class="contentDiv">
+            {% if session.user %}
+                Welcome, {{ session.user }} | <a href="{{ url_for('logout') }}">Logout</a>
+            {% else %}
+                Sign up and <span class="bold">GET 20% OFF</span> for your first order. <a href="{{ url_for('register') }}">Sign up now</a> | <a href="{{ url_for('login') }}">Login</a> 
+            {% endif %}
+            
+        </div>
+        <div class="socialLinks">
+            <i class="fa-brands fa-square-facebook"></i>
+            <i class="fa-brands fa-x-twitter"></i>
+            <i class="fa-brands fa-pinterest"></i>
+            <i class="fa-brands fa-linkedin"></i>
+            <i class="fa-brands fa-instagram"></i>
+        </div>
+    </div>
+    <!-- navbar -->
+    <nav>
+        <div class="logo">
+            <div class="img">
+                <img src="{{url_for('static', filename='images/logo11.jpg')}}" alt="" width="100%" height="100%">
+            </div>
+            <div>
+                MyShop
+            </div>
+        </div>
+
+        <div class="navlinks">
+            <a href="{{ url_for('index') }}">Home</a>
+            <a href="{{ url_for('shop') }}">Shop</a>
+            <a href="{{ url_for('skin_care') }}">Skin Care</a>
+            <a href="{{ url_for('makeup') }}">Makeup</a>
+            <a href="{{ url_for('hair_care') }}">Hair Care</a>
+            <a href="{{ url_for('about') }}">About Us</a>
+            <a href="{{ url_for('contact') }}">Contact Us</a>
+            {% if session.user %}
+                <a href="{{ url_for('addProduct') }}">Add Poduct</a>
+                <a href="{{ url_for('myAccount') }}">My Account</a>
+            {% else %}
+                <!-- <a href="{{ url_for('register') }}">Sign up now</a> | <a href="{{ url_for('login') }}">Login</a>  -->
+            {% endif %}
+            
+        </div>
+
+        <div class="actionFonts">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <i class="fa-regular fa-heart"></i>
+            <i class="fa-solid fa-cart-shopping"></i>
+            <i class="fa-solid fa-user"></i>
+        </div>
+    </nav>
+
+    <div class="header">
+        {% block header %}
+
+        {% endblock %}
+    </div>
+
+    <!-- shop page -->
+     <section>
+        {% block shopBody %}
+        {% endblock %}
+     </section>
+     
+     <!-- add product page -->
+      <section>
+        {% block addProduct %}
+        {% endblock %}
+      </section>
+
+      <!-- product details page -->
+       <section>
+        {% block productDetails %}
+        {% endblock %}
+       </section>
+
+       <!-- my account page -->
+       <section>
+        {% block myAccount %}
+        {% endblock %}
+       </section>
+
+       <!-- register page -->
+        <section>
+            {% block register %}
+            {% endblock %}
+        </section>
+        <!-- login -->
+         <section>
+            {% block login %}
+            {% endblock %}
+         </section>
+
+
+     <marquee behavior="" direction="">
+        <div class="callToAction">
+            <div class="div">
+                <h4>Free Shipping</h4>
+                <p>Free shipping for items above $50.</p>
+            </div>
+
+            <div class="div">
+                <h4>Flexible Payment</h4>
+                <p>Multipe secure payment options.</p>
+            </div>
+
+            <div class="div">
+                <h4>24 x 7 Support</h4>
+                <p>We support online all days.</p>
+            </div>
+        </div>
+     </marquee>
+
+     <footer>
+        <div class="main">
+            <div class="logo">
+                <div class="img">
+                    <img src="{{url_for('static', filename='images/logo11.jpg')}}" alt="" width="25px" height="25px">
+                </div>
+                <div>
+                    MyShop
+                </div>
+            </div>
+
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil blanditiis distinctio excepturi quaerat ipsa dolores veniam rerum vel praesentium aut?</p>
+
+            <div class="footerSocoalLinks">
+                <i class="fa-brands fa-square-facebook"></i>
+                <i class="fa-brands fa-x-twitter"></i>
+                <i class="fa-brands fa-pinterest"></i>
+                <i class="fa-brands fa-linkedin"></i>
+                <i class="fa-brands fa-instagram"></i>
+            </div>
+        </div>
+
+        <div class="customerService footContent">
+            <h4>Customer Sercice</h4>
+
+            <div class="footlinks">
+                <a href="">My Account</a>
+                <a href="">Track Your Order</a>
+                <a href="">Return</a>
+                <a href="">FAQ</a>
+            </div>
+        </div>
+        <div class="ourInfo footContent">
+            <h4>Our Information</h4>
+
+            <div class="footlinks">
+                <a href="">Privacy</a>
+                <a href="">User Terms & Conditions</a>
+                <a href="">Privacy Policy</a>
+            </div>
+        </div>
+        <div class="contactInfo footContent">
+            <div class="info">
+                <h4>Contact Info</h4>
+            </div>
+
+            <div class="info">
+                <i class="fa-solid fa-phone"></i>
+                <p>+74783539897</p>
+            </div>
+
+            <div class="info">
+                <i class="fa-solid fa-envelope"></i>
+                <p>companyname@shop.com</p>
+            </div>
+
+            <div class="info">
+                <i class="fa-solid fa-location-dot"></i>
+                <p>Nairobi, Kenya</p>
+            </div>
+        </div>
+     </footer>
+
+     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

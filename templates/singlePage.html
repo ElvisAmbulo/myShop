@@ -1,0 +1,270 @@
+<!-- save as product-detail-clone.html -->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Product Detail — Clone</title>
+  <style>
+    /* ---------- reset ---------- */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html,body { height: 100%; font-family: "Segoe UI", Roboto, Arial, sans-serif; color:#222; background:#fafafa; }
+
+  
+    /* ---------- main product section ---------- */
+    .page { max-width:1150px; margin:34px auto; padding:0 18px; }
+    .product-grid {
+      display:grid;
+      grid-template-columns: 1fr 460px;
+      gap:36px;
+      align-items:start;
+    }
+
+    /* left gallery */
+    .gallery {
+      background:transparent;
+    }
+    .main-image {
+      width:100%; height:420px; overflow:hidden; border-radius:12px; position:relative; background:#fff;
+      box-shadow: 0 6px 18px rgba(15,20,10,0.06);
+    }
+    .main-image img { width:100%; height:100%; object-fit:cover; display:block; }
+    .thumb-row { display:flex; gap:12px; margin-top:14px; }
+    .thumb { width:84px; height:66px; border-radius:8px; overflow:hidden; box-shadow: 0 3px 8px rgba(12,15,10,0.06); cursor:pointer; border:2px solid transparent; }
+    .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+    .thumb.active { border-color:#d6eadf; }
+
+    /* right info column */
+    .info {
+      background:#fff; padding:24px; border-radius:10px; box-shadow: 0 6px 18px rgba(15,20,10,0.04);
+    }
+    .meta { color:#7a7a7a; font-size:14px; margin-bottom:8px; }
+    .product-title { font-size:26px; color:#1f4b2d; margin-bottom:6px; font-weight:700; }
+    .rating-row { display:flex; gap:8px; align-items:center; margin-bottom:10px; color:#f0b429; }
+    .price-row { display:flex; gap:14px; align-items:center; margin-bottom:14px; }
+    .price-now { color:#2b8a4b; font-size:20px; font-weight:700; }
+    .price-old { color:#9aa0a0; text-decoration:line-through; font-size:15px; }
+
+    .short-desc { color:#666; line-height:1.5; margin-bottom:14px; font-size:15px; }
+
+    /* size/volume controls */
+    .variants { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:14px; }
+    .variants button { padding:8px 12px; border-radius:20px; border:1px solid #d6e9dd; background:#fff; cursor:pointer; font-weight:600; }
+    .variants button.active { background:#e9f6ee; color:#1f4b2d; border-color:#cfead8; }
+
+    /* add to cart row */
+    .qty-cart { display:flex; gap:10px; align-items:center; margin-bottom:16px; }
+    .qty { display:flex; align-items:center; gap:8px; border-radius:8px; border:1px solid #e2e6e4; padding:6px; }
+    .qty button { background:#fff; border:none; padding:6px 10px; cursor:pointer; font-weight:700; }
+    .add-btn { background:#276b39; color:#fff; border:none; padding:10px 16px; border-radius:8px; cursor:pointer; font-weight:700; }
+    .buy-btn { background:#d9a24c; color:#fff; border:none; padding:10px 16px; border-radius:8px; cursor:pointer; font-weight:700; margin-left:8px; }
+
+    .meta-small { color:#888; margin-top:10px; font-size:13px; }
+
+    /* ---------- tabs and additional info ---------- */
+    .tabs { margin-top:36px; background:transparent; }
+    .tab-buttons { display:flex; gap:18px; border-bottom:2px solid #f0f0f0; padding-bottom:10px; }
+    .tab-buttons button { background:none; border:none; padding:12px 6px; cursor:pointer; font-weight:700; color:#666; }
+    .tab-buttons button.active { color:#1f4b2d; border-bottom:3px solid #1f4b2d; }
+    .tab-content { margin-top:18px; background:#fff; padding:18px; border-radius:8px; box-shadow: 0 2px 8px rgba(15,20,10,0.03); }
+
+    .info-table { width:100%; border-collapse:collapse; font-size:15px; }
+    .info-table th { background:#1f4b2d; color:#fff; text-align:left; padding:10px 12px; border-radius:6px 6px 0 0; }
+    .info-table td { padding:10px 12px; border-bottom:1px solid #f2f2f2; color:#555; }
+    .info-table tr:nth-child(even) td { background:#fcfcfc; }
+
+    /* ---------- related products ---------- */
+    .related { margin-top:36px; }
+    .related-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:18px; margin-top:18px; }
+    .related-card { background:#fff; padding:12px; border-radius:12px; box-shadow:0 6px 18px rgba(12,15,10,0.04); text-decoration:none; color:inherit; }
+    .related-card img { width:100%; height:140px; object-fit:cover; border-radius:8px; }
+
+    .related-card h4 { margin-top:8px; color:#1f4b2d; font-size:16px; }
+    .related-card .rel-price { color:#2b8a4b; font-weight:700; margin-top:6px; }
+
+   
+
+    /* ---------- responsive ---------- */
+    @media (max-width: 980px){
+      .product-grid { grid-template-columns: 1fr; }
+      .main-image { 
+        height:450px; 
+        object-fit: cover;
+        object-position: center;
+      }
+      .info { padding:16px; }
+      .page { padding:0 12px; }
+    }
+    @media (max-width:500px){
+      .main-image { height:260px; }
+      .thumb { width:62px; height:48px; }
+      .brand .logo { width:40px; height:40px; }
+    }
+  </style>
+</head>
+<body>
+
+  
+
+  <main class="page">
+    <div class="product-grid">
+
+      <!-- LEFT: gallery -->
+      <div class="gallery">
+        <div class="main-image" id="mainImageWrap">
+          <img id="mainImage" src="../Pins/35a8c3e5e926433617dc372105f74002.jpg" alt="Product main">
+        </div>
+
+        <div class="thumb-row" id="thumbRow">
+          <div class="thumb active" data-src="static/images/thumb1.jpg"><img src="../Pins/2ee84b01c1b0fea92490b33874928829.jpg" alt=""></div>
+          <div class="thumb" data-src="static/images/thumb2.jpg"><img src="static/images/thumb2.jpg" alt=""></div>
+          <div class="thumb" data-src="static/images/thumb3.jpg"><img src="static/images/thumb3.jpg" alt=""></div>
+          <div class="thumb" data-src="static/images/product-main.jpg"><img src="static/images/product-main.jpg" alt=""></div>
+        </div>
+      </div>
+
+      <!-- RIGHT: product info -->
+      <aside class="info">
+        <div class="meta">Skin Care</div>
+        <div class="product-title">SilkSkin Serum</div>
+
+        <div class="rating-row">
+          <div style="display:flex;align-items:center; gap:6px;">
+            <span style="font-size:14px; color:#f0b429;">★★★★★</span>
+            <span style="color:#444; font-weight:700; font-size:14px;">4.8</span>
+          </div>
+          <div style="background:#e6fbef; color:#1f4b2d; padding:4px 8px; border-radius:12px; font-weight:700; font-size:13px;">In Stock</div>
+        </div>
+
+        <div class="price-row">
+          <div class="price-now">$48.00</div>
+          <div class="price-old">$60.00</div>
+        </div>
+
+        <div class="short-desc">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent ac eros at lorem dictum placerat.
+        </div>
+
+        <div class="variants">
+          <button class="active">30 ml</button>
+          <button>60 ml</button>
+          <button>80 ml</button>
+          <button>100 ml</button>
+        </div>
+
+        <div class="qty-cart">
+          <div class="qty">
+            <button id="decQty">-</button>
+            <div id="qtyVal" style="min-width:28px; text-align:center;">1</div>
+            <button id="incQty">+</button>
+          </div>
+          <button class="add-btn">Add To Cart</button>
+          <button class="buy-btn">Buy Now</button>
+        </div>
+
+        <div class="meta-small">
+          SKU : GRFR85648HGJ <br/>
+          Tags : Skincare, Serums, Vitamin C
+        </div>
+      </aside>
+
+    </div>  <!-- end product-grid -->
+
+    <!-- tabs -->
+    <section class="tabs">
+      <div class="tab-buttons" role="tablist">
+        <button class="active" data-tab="desc">Description</button>
+        <button data-tab="info">Additional Information</button>
+        <button data-tab="review">Review</button>
+      </div>
+
+      <div class="tab-content" id="desc">
+        <p style="margin-bottom:12px;">Detailed product description goes here. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+      </div>
+
+      <div class="tab-content" id="info" style="display:none;">
+        <table class="info-table">
+          <thead>
+            <tr><th>Attribute</th><th>Details</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Skin Type</td><td>Normal, Oily, Dry, Combination, Sensitive</td></tr>
+            <tr><td>Size/Volume</td><td>30 ml, 60 ml, 80 ml, 100 ml</td></tr>
+            <tr><td>Shelf Life</td><td>24 months</td></tr>
+            <tr><td>Application Time</td><td>Morning and Evening</td></tr>
+            <tr><td>Packaging</td><td>Recyclable Glass Bottle</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="tab-content" id="review" style="display:none;">
+        <p>No reviews yet. Be the first to review this product.</p>
+      </div>
+
+      <!-- related products -->
+      <section class="related">
+        <h3 style="text-align:center; color:#333; margin-top:30px;">Explore Related Products</h3>
+        <div class="related-grid">
+          <a class="related-card" href="#">
+            <img src="static/images/related1.jpg" alt="">
+            <h4>SilkSculpt Serum</h4>
+            <div class="rel-price">$35.00 <span style="text-decoration:line-through; color:#9aa0a0; font-weight:600; margin-left:8px">$70.00</span></div>
+          </a>
+
+          <a class="related-card" href="#">
+            <img src="static/images/related2.jpg" alt="">
+            <h4>HydraLuxe Serum</h4>
+            <div class="rel-price">$20.00 <span style="text-decoration:line-through; color:#9aa0a0; font-weight:600; margin-left:8px">$40.00</span></div>
+          </a>
+
+          <a class="related-card" href="#">
+            <img src="static/images/related3.jpg" alt="">
+            <h4>OceanMist Moisturizer</h4>
+            <div class="rel-price">$20.00 <span style="text-decoration:line-through; color:#9aa0a0; font-weight:600; margin-left:8px">$40.00</span></div>
+          </a>
+        </div>
+      </section>
+
+    </section>
+
+    <footer class="site-footer">© 2025 Beauty Shop. All rights reserved.</footer>
+  </main>
+
+  <script>
+    // gallery thumbnail click -> main image
+    document.querySelectorAll('.thumb').forEach(t => {
+      t.addEventListener('click', () => {
+        document.querySelectorAll('.thumb').forEach(x=>x.classList.remove('active'));
+        t.classList.add('active');
+        const src = t.getAttribute('data-src');
+        document.getElementById('mainImage').src = src;
+      });
+    });
+
+    // qty inc/dec
+    const qtyVal = document.getElementById('qtyVal');
+    document.getElementById('incQty').addEventListener('click', ()=> { qtyVal.innerText = parseInt(qtyVal.innerText) + 1;});
+    document.getElementById('decQty').addEventListener('click', ()=> { if(parseInt(qtyVal.innerText)>1) qtyVal.innerText = parseInt(qtyVal.innerText) - 1;});
+
+    // tabs
+    document.querySelectorAll('.tab-buttons button').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        document.querySelectorAll('.tab-buttons button').forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        const tab = btn.getAttribute('data-tab');
+        document.querySelectorAll('.tab-content').forEach(tc=>tc.style.display='none');
+        document.getElementById(tab).style.display='block';
+      });
+    });
+
+    // variant active toggle
+    document.querySelectorAll('.variants button').forEach(b=>{
+      b.addEventListener('click', ()=> {
+        document.querySelectorAll('.variants button').forEach(x=>x.classList.remove('active'));
+        b.classList.add('active');
+      })
+    });
+  </script>
+
+</body>
+</html>

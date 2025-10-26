@@ -1,0 +1,151 @@
+{% extends 'base.html'%}
+
+{% block header %}
+    <div class="head_contect">
+        <h2>Shop</h2>
+    </div>
+{% endblock %}
+
+<!-- shop body -->
+{% block shopBody %}
+    <div class="shopBody">
+        <div class="filterOptions">
+            <h4>Filter Options</h4>
+
+            <div class="byCategory filter">
+                <h5>By Category</h5>
+                <ul class="filterLinks">
+                    <li><a>Skin Care</a></li>
+                    <li><a>Makeup</a></li>
+                    <li><a>Hair Care</a></li>
+                    <li><a>Fragrances</a></li>
+                    <li><a>Nail Care</a></li>
+                    <li><a>Body Care</a></li>
+                </ul>
+            </div>
+
+            <div class="bySkin filter">
+               <h5>By Skin Type</h5>
+               <ul class="filterLinks">
+                    <li><a>Normal</a></li>
+                    <li><a>Oily</a></li>
+                    <li><a>Combination</a></li>
+                    <li><a>Dry</a></li>
+                    <li><a>Sensitive</a></li>
+                </ul>
+            </div>
+
+            <div class="byPrice filter">
+                <h5>Price</h5>
+                <p>$10.00 - $100.00</p>
+                <input type="range" name="range" id="range">
+            </div>
+
+            <div class="review filter">
+                <h5>Review</h5>
+                <div class="first">
+                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                </div>
+                <div class="second">
+                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                </div>
+                <div class="third">
+                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                </div>
+                <div class="fourth">
+                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                </div>
+                <div class="fifth">
+                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                </div>
+            </div>
+
+            <div class="byPromotions filter">
+                <h5>By Promotions</h5>
+                <div class="promotionsInput">
+                    <input type="checkbox" name="" id="">
+                    <p>New Arrivals</p>
+                </div>
+                <div class="promotionsInput">
+                    <input type="checkbox" name="" id="">
+                    <p>Best Sellers</p>
+                </div>
+                <div class="promotionsInput">
+                    <input type="checkbox" name="" id="">
+                    <p>On Sale</p>
+                </div>
+            </div>
+
+            <div class="byAvailability filter">
+                <h5>Availability</h5>
+                <div class="promotionsInput">
+                    <input type="checkbox" name="" id="">
+                    <p>In Stock</p>
+                </div>
+                <div class="promotionsInput">
+                    <input type="checkbox" name="" id="">
+                    <p>New Arrivals</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="contents">
+            <div class="contentsHeader">
+                
+                <div class="results">
+                    <p>Showing {{ showing_start }} - {{ showing_end }} of {{ total_products }} results</p>
+                </div>
+                <div class="sortBy">
+                    <div class="">
+                        <p>Sort by: </p>
+                    </div>
+
+                    <div class="">
+                        <select name="select" id="select">
+                            <option value="">Option1</option>
+                            <option value="">Option2</option>
+                            <option value="">Option3</option>
+                            <option value="">Option4</option>
+                            <option value="">Option5</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row"> 
+                {% for item in items %}
+                    <a href="{{ url_for('product_detail', product_id=item.id) }}">
+                        <div class="card">
+                            <div class="img">
+                                <img src="{{ url_for('static', filename='images/' ~ item.image) }}" alt="{{ item.name }}">
+                            </div>
+                            <div class="desc">
+                                <div class="descRating">
+                                    <div><p>{{ item.category }}</p></div>
+                                    <div><i class="fa-solid fa-star"></i> {{ item.rating }}</div> 
+                                </div>
+                                <h5>{{ item.name }}</h5>
+                                <div class="price">
+                                    <h6><span class="currentPrice">Ksh {{ item.nowPrice }}</span></h6>
+                                    <h6><span class="lineThrough">Ksh {{ item.wasPrice }}</span></h6>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                {% endfor %}
+
+            </div>
+
+
+            <div class="pageControls">
+                {% if page > 1 %}
+                    <a href="{{ url_for('shop', page=page-1) }}">Prev</a>
+                {% endif %}
+                {% if showing_end < total_products %}
+                    <a href="{{ url_for('shop', page=page+1) }}">Next</a>
+                {% endif %}
+            </div>
+
+        </div>
+    </div>
+{% endblock %}

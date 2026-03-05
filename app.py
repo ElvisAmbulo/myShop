@@ -7,7 +7,7 @@ import config
 
 app = Flask(__name__)
 
-app.secret_key = "djfhfhgfjg-fghfh-fhfdDSewqerwrte-tutyiuyie"
+app.secret_key = "fhgfjg-fghfh-erwrte-tutyiuyie"
 
 app.config['MYSQL_HOST'] = config.MYSQL_HOST
 app.config['MYSQL_USER'] = config.MYSQL_USER

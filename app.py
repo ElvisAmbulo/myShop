@@ -7,10 +7,8 @@ import config
 
 app = Flask(__name__)
 
-# ------------------- SECRET KEY -------------------
-app.secret_key = "your_super_secret_key_here"  # Change to a strong random key
+app.secret_key = "djfhfhgfjg-fghfh-fhfdDSewqerwrte-tutyiuyie"
 
-# ------------------- MySQL Configuration -------------------
 app.config['MYSQL_HOST'] = config.MYSQL_HOST
 app.config['MYSQL_USER'] = config.MYSQL_USER
 app.config['MYSQL_PASSWORD'] = config.MYSQL_PASSWORD
@@ -19,19 +17,15 @@ app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 
 mysql = MySQL(app)
 
-# ------------------- Image Upload Setup -------------------
 UPLOAD_FOLDER = os.path.join(os.getcwd(), 'static', 'images')
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-
-# ------------------- ROUTES -------------------
 
 @app.route('/')
 def index():
     user = session.get('user')
     return render_template('index.html', user=user)
 
-# -------- REGISTER --------
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
@@ -64,7 +58,6 @@ def register():
 
     return render_template('register.html')
 
-# -------- LOGIN --------
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -87,7 +80,6 @@ def login():
 
     return render_template('login.html')
 
-# -------- LOGOUT --------
 @app.route('/logout')
 def logout():
     session.pop('user_id', None)
@@ -95,7 +87,6 @@ def logout():
     flash("You have been logged out.", "info")
     return redirect(url_for('login'))
 
-# -------- ACCOUNT PAGE --------
 @app.route('/myAccount', methods=['GET', 'POST'])
 def myAccount():
     if 'user_id' not in session:
@@ -136,7 +127,6 @@ def myAccount():
     user = cur.fetchone()
     cur.close()
 
-    # ✅ Fix: Ensure default image if user has no image
     if not user.get('image'):
         user['image'] = 'default.png'
 
@@ -155,7 +145,6 @@ def update_password():
     cur.execute("SELECT password FROM users WHERE id=%s", (session['user_id'],))
     user = cur.fetchone()
 
-    # Flask-MySQLdb with DictCursor returns dict-like rows
     if not user or not check_password_hash(user['password'], current):
         flash("Current password is incorrect!", "danger")
         return redirect(url_for('myAccount'))
@@ -170,8 +159,6 @@ def update_password():
         flash("Password updated successfully!", "success")
         return redirect(url_for('myAccount'))
 
-
-# -------- SHOP --------
 @app.route('/shop')
 def shop():
     page = int(request.args.get('page', 1))
@@ -201,7 +188,6 @@ def shop():
         page=page
     )
 
-# -------- ADD PRODUCT --------
 @app.route('/addProduct', methods=['GET', 'POST'])
 def addProduct():
     if request.method == 'POST':
@@ -238,7 +224,6 @@ def addProduct():
         return redirect(url_for('shop'))
     return render_template('addProduct.html')
 
-# -------- PRODUCT DETAILS --------
 @app.route('/product/<int:product_id>')
 def product_detail(product_id):
     cur = mysql.connection.cursor()
@@ -257,7 +242,6 @@ def product_detail(product_id):
 
     return render_template('productDetails.html', product=product, relatedProducts=relatedProducts)
 
-# -------- STATIC PAGES --------
 @app.route('/skin_care')
 def skin_care():
     return render_template('skin_care.html')
@@ -278,6 +262,6 @@ def about():
 def contact():
     return render_template('contact.html')
 
-# ------------------- RUN APP -------------------
+#  RUN APP 
 if __name__ == "__main__":
     app.run(debug=True, port=8000)
